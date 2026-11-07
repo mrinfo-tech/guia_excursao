@@ -1,0 +1,16 @@
+{
+  "name": "Guia Excursão Pro",
+  "short_name": "GuiaPro",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f4f9",
+  "theme_color": "#25d366",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://flaticon.com",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
