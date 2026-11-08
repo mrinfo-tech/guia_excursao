@@ -81,7 +81,7 @@ window.fixarPontoEncontro = function() {
       btnMap.style.color = "white";
 
       // Exibe o link simulado para o organizador copiar e mandar no grupo
-      const linkPassageiro = window.location.href.replace('index.html', '') + 'passenger.html';
+      const linkPassageiro = window.location.href.replace('index.html', '') + 'passageiro.html';
       alert(`Ponto fixado!\nCompartilhe este link com os passageiros:\n\n${linkPassageiro}`);
     },
     (error) => {
