@@ -71,17 +71,23 @@
 			// Preenche os campos de texto (Plano B)
 			document.getElementById('txt-local').innerText = ponto.local || "Não informado";
 			document.getElementById('txt-horario').innerText = ponto.horario || "Não informado";
+			
+			// Verifica se existem coordenadas válidas
+			const lat = parseFloat(ponto.lat);
+			const lng = parseFloat(ponto.lng);
 
-			// Verifica se temos as coordenadas numéricas válidas para o GPS
-			if (ponto.lat && ponto.lng) {
-				const latPura = parseFloat(ponto.lat).toFixed(6);
-				const lngPura = parseFloat(ponto.lng).toFixed(6);
-				
-				// Monta a URL oficial sem caracteres especiais obstrutivos
-				btnRota.href = "https://google.com" + latPura + "," + lngPura + "&travelmode=walking";
-				blocoMapa.style.display = 'block';
+			if (Number.isFinite(lat) && Number.isFinite(lng)) {
+
+					// Monta a URL oficial do Google Maps
+					btnRota.href = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=walking`;
+
+					btnRota.target = "_blank";
+					btnRota.rel = "noopener noreferrer";
+
+					blocoMapa.style.display = 'block';
+
 			} else {
-				blocoMapa.style.display = 'none';
+					blocoMapa.style.display = 'none';
 			}
 
 			infoTexto.style.display = 'block';
