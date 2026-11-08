@@ -58,9 +58,19 @@ window.alternarPresenca = function(id) {
 }
 
 // 5. Função para Fixar o Ponto de Encontro (GPS do Guia)
+// 5. Função para Fixar o Ponto de Encontro + Dados de Texto
 window.fixarPontoEncontro = function() {
+  const localTexto = document.getElementById('input-local').value.trim();
+  const horarioTexto = document.getElementById('input-horario').value;
+
+  if (!localTexto || !horarioTexto) {
+    alert("Por favor, preencha o Local e o Horário de Partida antes de fixar!");
+    return;
+  }
+
   if (!navigator.geolocation) {
-    alert("Seu navegador não suporta geolocalização.");
+    alert("Seu navegador não suporta geolocalização. Mas os dados de texto serão salvos!");
+    salvarDadosPonto(null, null, localTexto, horarioTexto);
     return;
   }
 
@@ -72,27 +82,31 @@ window.fixarPontoEncontro = function() {
     (position) => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
-      
-      // Salva a localização para simular o compartilhamento
-      localStorage.setItem('pontoEncontro', JSON.stringify({ lat, lng }));
-      
-      btnMap.innerText = "📍 Ponto Fixado com Sucesso!";
-      btnMap.style.background = "#007bff";
-      btnMap.style.color = "white";
-
-      // Exibe o link simulado para o organizador copiar e mandar no grupo
-      const linkPassageiro = window.location.href.replace('index.html', '') + 'passageiro.html';
-      alert(`Ponto fixado!\nCompartilhe este link com os passageiros:\n\n${linkPassageiro}`);
+      salvarDadosPonto(lat, lng, localTexto, horarioTexto);
     },
     (error) => {
       console.error(error);
-      alert("Não foi possível obter sua localização. Verifique as permissões de GPS.");
-      btnMap.innerText = "📍 Fixar Ponto de Encontro";
-      btnMap.style.background = "#e0e0e0";
+      alert("Não foi possível obter o GPS. Salvando apenas as informações de texto.");
+      salvarDadosPonto(null, null, localTexto, horarioTexto);
     },
     { enableHighAccuracy: true, timeout: 10000 }
   );
 }
+
+// Função auxiliar para salvar e gerar o alerta
+function salvarDadosPonto(lat, lng, local, horario) {
+  const btnMap = document.getElementById('btn-gps');
+  
+  const dadosPonto = { lat, lng, local, horario };
+  localStorage.setItem('pontoEncontro', JSON.stringify(dadosPonto));
+  
+  btnMap.innerText = "🚀 Dados Fixados com Sucesso!";
+  btnMap.style.background = "#25d366";
+
+  const linkPassageiro = window.location.href.replace('index.html', '') + 'passageiro.html';
+  alert(`Sucesso!\nCompartilhe este link com os passageiros:\n\n${linkPassageiro}`);
+}
+
 
 
 // Inicializa a tela

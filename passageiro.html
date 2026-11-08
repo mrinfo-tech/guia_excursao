@@ -31,39 +31,57 @@
 
   <div class="card">
     <div style="font-size: 3rem;">🚌</div>
-    <h1>Hora de voltar para o ônibus?</h1>
-    <p>O guia marcou a localização exata do ponto de encontro. Clique no botão abaixo para abrir o mapa com a rota de caminhada de onde você está até lá.</p>
+    <h1>Dados do Retorno</h1>
     
-    <a id="link-mapa" href="#" target="_blank" class="btn-rota">🚶‍♂️ Traçar Rota de Volta</a>
+    <!-- Bloco de Informações de Texto (Plano B) -->
+    <div id="info-texto" style="background: #e9ecef; padding: 15px; border-radius: 10px; margin: 20px 0; text-align: left; border-left: 5px solid #ffc107;">
+      <p style="margin: 0 0 8px 0; color: #333;"><strong>📍 Local de Encontro:</strong> <span id="txt-local">Carregando...</span></p>
+      <p style="margin: 0; color: #333;"><strong>⏰ Horário de Partida:</strong> <span id="txt-horario">Carregando...</span></p>
+    </div>
+
+    <!-- Opção A: Rota pelo Mapa -->
+    <div id="bloco-mapa">
+      <p>Clique no botão abaixo para abrir o mapa com a rota de caminhada de onde você está até o ônibus.</p>
+      <a id="link-mapa" href="#" target="_blank" class="btn-rota">🚶‍♂️ Traçar Rota de Volta</a>
+    </div>
     
-    <div id="aviso-erro" class="no-gps">
-      O organizador ainda não fixou o ponto de encontro para esta viagem.
+    <div id="aviso-erro" class="no-gps" style="display: none; background: #dc3545; color: white; padding: 15px; border-radius: 8px;">
+      O organizador ainda não liberou as informações de retorno para esta viagem.
     </div>
   </div>
 
   <script>
-		// 1. Recupera as coordenadas salvas na memória
-		const ponto = JSON.parse(localStorage.getItem('pontoEncontro'));
-		const btnRota = document.getElementById('link-mapa');
-		const avisoErro = document.getElementById('aviso-erro');
+    // 1. Recupera as informações salvas na memória
+    const ponto = JSON.parse(localStorage.getItem('pontoEncontro'));
+    const btnRota = document.getElementById('link-mapa');
+    const blocoMapa = document.getElementById('bloco-mapa');
+    const avisoErro = document.getElementById('aviso-erro');
+    const infoTexto = document.getElementById('info-texto');
 
-		// 2. Verifica se o ponto existe e se os números são válidos
-		if (ponto && ponto.lat && ponto.lng) {
-			
-			// Extrai os números puros e limpa qualquer caractere estranho
-			const latitude = parseFloat(ponto.lat);
-			const longitude = parseFloat(ponto.lng);
+    // 2. Verifica se existem dados cadastrados pelo guia
+    if (ponto && (ponto.local || ponto.lat)) {
+      
+      // Preenche os campos de texto (Plano B sempre visível)
+      document.getElementById('txt-local').innerText = ponto.local || "Não informado";
+      document.getElementById('txt-horario').innerText = ponto.horario || "Não informado";
 
-			// Cria a URL limpa e oficial da API do Google Maps para navegação a pé
-			// Usamos Template Strings (crases ` `) para injetar as variáveis com segurança
-			btnRota.href = `https://google.com{latitude},${longitude}&travelmode=walking`;
-			
-		} else {
-			// Se não houver coordenadas válidas, esconde o botão e mostra o erro
-			btnRota.style.display = 'none';
-			avisoErro.style.display = 'block';
-		}
-	</script>
+      // Verifica se temos as coordenadas do GPS para liberar o botão do mapa (Opção A)
+      if (ponto.lat && ponto.lng) {
+        const latitude = parseFloat(ponto.lat);
+        const longitude = parseFloat(ponto.lng);
+        btnRota.href = `https://google.com{latitude},${longitude}&travelmode=walking`;
+      } else {
+        // Se o guia salvou sem GPS, esconde o bloco do botão do mapa de forma amigável
+        blocoMapa.style.display = 'none';
+      }
 
+    } else {
+      // Se não houver dado nenhum salvo
+      infoTexto.style.display = 'none';
+      blocoMapa.style.display = 'none';
+      avisoErro.style.display = 'block';
+    }
+  </script>
 </body>
+
 </html>

@@ -52,12 +52,19 @@
     <strong>Placar: </strong> <span id="counter">0 / 0</span> presentes
   </div>
   
-  <div class="status-card" style="background: #e9ecef; border: 1px dashed #ccc;">
-    <p style="margin: 0 0 10px 0; font-size: 0.9rem; color: #555;">Estacionou o ônibus ou chegou no ponto de encontro?</p>
-    <button id="btn-gps" onclick="fixarPontoEncontro()" style="width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; background: #e0e0e0;">
-    📍 Fixar Ponto de Encontro
+  <div class="status-card" style="background: #e9ecef; border: 1px dashed #ccc; text-align: left;">
+    <p style="margin: 0 0 10px 0; font-size: 0.95rem; font-weight: bold; color: #333; text-align: center;">🚌 Dados de Retorno/Embarque</p>
+    
+    <label style="font-size: 0.85rem; color: #555; display: block; margin-bottom: 4px;">Local de Partida (Ex: Em frente à Igreja):</label>
+    <input type="text" id="input-local" placeholder="Nome do local ou ponto de referência" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 10px; box-sizing: border-box;">
+
+    <label style="font-size: 0.85rem; color: #555; display: block; margin-bottom: 4px;">Horário de Partida (Ex: 17:30):</label>
+    <input type="time" id="input-horario" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 15px; box-sizing: border-box;">
+
+    <button id="btn-gps" onclick="fixarPontoEncontro()" style="width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; background: #007bff; color: white;">📍 Fixar e Enviar Dados aos Passageiros
     </button>
   </div>
+
 
   <div class="passenger-list" id="list">
     <!-- Gerado dinamicamente via JS -->
