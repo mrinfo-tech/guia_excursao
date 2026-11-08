@@ -2,7 +2,7 @@ const CACHE_NAME = 'excursao-v1';
 const ASSETS = [
   './',
   './index.html',
-  './passenger.html', 
+  './passengeiro.html', 
   './app.js',
   './manifest.json',
   'https://flaticon.com'
