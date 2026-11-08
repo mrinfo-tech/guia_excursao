@@ -57,5 +57,43 @@ window.alternarPresenca = function(id) {
   renderizarLista();
 }
 
+// 5. Função para Fixar o Ponto de Encontro (GPS do Guia)
+window.fixarPontoEncontro = function() {
+  if (!navigator.geolocation) {
+    alert("Seu navegador não suporta geolocalização.");
+    return;
+  }
+
+  const btnMap = document.getElementById('btn-gps');
+  btnMap.innerText = "Buscando satélite...";
+  btnMap.style.background = "#ffc107";
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      
+      // Salva a localização para simular o compartilhamento
+      localStorage.setItem('pontoEncontro', JSON.stringify({ lat, lng }));
+      
+      btnMap.innerText = "📍 Ponto Fixado com Sucesso!";
+      btnMap.style.background = "#007bff";
+      btnMap.style.color = "white";
+
+      // Exibe o link simulado para o organizador copiar e mandar no grupo
+      const linkPassageiro = window.location.href.replace('index.html', '') + 'passenger.html';
+      alert(`Ponto fixado!\nCompartilhe este link com os passageiros:\n\n${linkPassageiro}`);
+    },
+    (error) => {
+      console.error(error);
+      alert("Não foi possível obter sua localização. Verifique as permissões de GPS.");
+      btnMap.innerText = "📍 Fixar Ponto de Encontro";
+      btnMap.style.background = "#e0e0e0";
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
+}
+
+
 // Inicializa a tela
 renderizarLista();

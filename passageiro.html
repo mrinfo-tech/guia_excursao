@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retorno da Excursão</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .card {
+      background: white; padding: 30px 20px; border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: 40px;
+    }
+    h1 { color: #333; font-size: 1.6rem; }
+    p { color: #666; line-height: 1.5; margin-bottom: 25px; }
+    .btn-rota {
+      display: inline-block; width: 100%; box-sizing: border-box;
+      background: #007bff; color: white; text-decoration: none;
+      padding: 16px; border-radius: 10px; font-weight: bold; font-size: 1.1rem;
+      box-shadow: 0 4px 6px rgba(0,123,255,0.2);
+    }
+    .no-gps { background: #dc3545; color: white; padding: 15px; border-radius: 8px; display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div style="font-size: 3rem;">🚌</div>
+    <h1>Hora de voltar para o ônibus?</h1>
+    <p>O guia marcou a localização exata do ponto de encontro. Clique no botão abaixo para abrir o mapa com a rota de caminhada de onde você está até lá.</p>
+    
+    <a id="link-mapa" href="#" target="_blank" class="btn-rota">🚶‍♂️ Traçar Rota de Volta</a>
+    
+    <div id="aviso-erro" class="no-gps">
+      O organizador ainda não fixou o ponto de encontro para esta viagem.
+    </div>
+  </div>
+
+  <script>
+    // Recupera a coordenada que o guia salvou
+    const ponto = JSON.parse(localStorage.getItem('pontoEncontro'));
+    const btnRota = document.getElementById('link-mapa');
+    const avisoErro = document.getElementById('aviso-erro');
+
+    if (ponto && ponto.lat && ponto.lng) {
+      // Gera o link universal do Google Maps focado em navegação para pedestres ('w' de walking)
+      btnRota.href = `https://google.com{ponto.lat},${ponto.lng}&travelmode=walking`;
+    } else {
+      btnRota.style.display = 'none';
+      avisoErro.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

@@ -51,6 +51,13 @@
   <div class="status-card">
     <strong>Placar: </strong> <span id="counter">0 / 0</span> presentes
   </div>
+  
+  <div class="status-card" style="background: #e9ecef; border: 1px dashed #ccc;">
+    <p style="margin: 0 0 10px 0; font-size: 0.9rem; color: #555;">Estacionou o ônibus ou chegou no ponto de encontro?</p>
+    <button id="btn-gps" onclick="fixarPontoEncontro()" style="width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; background: #e0e0e0;">
+    📍 Fixar Ponto de Encontro
+    </button>
+  </div>
 
   <div class="passenger-list" id="list">
     <!-- Gerado dinamicamente via JS -->
