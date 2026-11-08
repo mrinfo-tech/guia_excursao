@@ -42,18 +42,28 @@
   </div>
 
   <script>
-    // Recupera a coordenada que o guia salvou
-    const ponto = JSON.parse(localStorage.getItem('pontoEncontro'));
-    const btnRota = document.getElementById('link-mapa');
-    const avisoErro = document.getElementById('aviso-erro');
+		// 1. Recupera as coordenadas salvas na memória
+		const ponto = JSON.parse(localStorage.getItem('pontoEncontro'));
+		const btnRota = document.getElementById('link-mapa');
+		const avisoErro = document.getElementById('aviso-erro');
 
-    if (ponto && ponto.lat && ponto.lng) {
-      // Gera o link universal do Google Maps focado em navegação para pedestres ('w' de walking)
-      btnRota.href = `https://google.com{ponto.lat},${ponto.lng}&travelmode=walking`;
-    } else {
-      btnRota.style.display = 'none';
-      avisoErro.style.display = 'block';
-    }
-  </script>
+		// 2. Verifica se o ponto existe e se os números são válidos
+		if (ponto && ponto.lat && ponto.lng) {
+			
+			// Extrai os números puros e limpa qualquer caractere estranho
+			const latitude = parseFloat(ponto.lat);
+			const longitude = parseFloat(ponto.lng);
+
+			// Cria a URL limpa e oficial da API do Google Maps para navegação a pé
+			// Usamos Template Strings (crases ` `) para injetar as variáveis com segurança
+			btnRota.href = `https://google.com{latitude},${longitude}&travelmode=walking`;
+			
+		} else {
+			// Se não houver coordenadas válidas, esconde o botão e mostra o erro
+			btnRota.style.display = 'none';
+			avisoErro.style.display = 'block';
+		}
+	</script>
+
 </body>
 </html>
