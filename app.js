@@ -1,5 +1,5 @@
 // Centralização da versão do sistema
-const APP_VERSION = "2.0.0";
+const APP_VERSION = "2.0.1";
 
 // Exibe a versão na página se houver o elemento correspondente
 document.addEventListener("DOMContentLoaded", () => {
