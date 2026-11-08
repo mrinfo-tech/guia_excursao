@@ -49,39 +49,52 @@
       O organizador ainda não liberou as informações de retorno para esta viagem.
     </div>
   </div>
-
+	
+	 <!-- 1. Adicione o rodapé aqui -->
+  <footer style="margin-top: 30px; text-align: center; font-size: 0.8rem; color: #888;">
+    Versão do App: <span id="app-version">Carregando...</span>
+  </footer>
+	
+	<script src="app.js"></script>
+	
   <script>
-    // 1. Recupera as informações salvas na memória
-    const ponto = JSON.parse(localStorage.getItem('pontoEncontro'));
-    const btnRota = document.getElementById('link-mapa');
-    const blocoMapa = document.getElementById('bloco-mapa');
-    const avisoErro = document.getElementById('aviso-erro');
-    const infoTexto = document.getElementById('info-texto');
+		// 1. Recupera as informações salvas na memória
+		const ponto = JSON.parse(localStorage.getItem('pontoEncontro'));
+		const btnRota = document.getElementById('link-mapa');
+		const blocoMapa = document.getElementById('bloco-mapa');
+		const avisoErro = document.getElementById('aviso-erro');
+		const infoTexto = document.getElementById('info-texto');
 
-    // 2. Verifica se existem dados cadastrados pelo guia
-    if (ponto && (ponto.local || ponto.lat)) {
-      
-      // Preenche os campos de texto (Plano B sempre visível)
-      document.getElementById('txt-local').innerText = ponto.local || "Não informado";
-      document.getElementById('txt-horario').innerText = ponto.horario || "Não informado";
+		// 2. Verifica se existem dados cadastrados pelo guia
+		if (ponto) {
+			
+			// Preenche os campos de texto (Plano B)
+			document.getElementById('txt-local').innerText = ponto.local || "Não informado";
+			document.getElementById('txt-horario').innerText = ponto.horario || "Não informado";
 
-      // Verifica se temos as coordenadas do GPS para liberar o botão do mapa (Opção A)
-      if (ponto.lat && ponto.lng) {
-        const latitude = parseFloat(ponto.lat);
-        const longitude = parseFloat(ponto.lng);
-        btnRota.href = `https://google.com{latitude},${longitude}&travelmode=walking`;
-      } else {
-        // Se o guia salvou sem GPS, esconde o bloco do botão do mapa de forma amigável
-        blocoMapa.style.display = 'none';
-      }
+			// Verifica se temos as coordenadas numéricas válidas para o GPS
+			if (ponto.lat && ponto.lng) {
+				const latPura = parseFloat(ponto.lat).toFixed(6);
+				const lngPura = parseFloat(ponto.lng).toFixed(6);
+				
+				// Monta a URL oficial sem caracteres especiais obstrutivos
+				btnRota.href = "https://google.com" + latPura + "," + lngPura + "&travelmode=walking";
+				blocoMapa.style.display = 'block';
+			} else {
+				blocoMapa.style.display = 'none';
+			}
 
-    } else {
-      // Se não houver dado nenhum salvo
-      infoTexto.style.display = 'none';
-      blocoMapa.style.display = 'none';
-      avisoErro.style.display = 'block';
-    }
-  </script>
+			infoTexto.style.display = 'block';
+			avisoErro.style.display = 'none';
+
+		} else {
+			// Se não houver dado nenhum salvo
+			infoTexto.style.display = 'none';
+			blocoMapa.style.display = 'none';
+			avisoErro.style.display = 'block';
+		}
+	</script>
+
 </body>
 
 </html>

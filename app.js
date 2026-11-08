@@ -1,3 +1,12 @@
+// Centralização da versão do sistema
+const APP_VERSION = "2.0.0";
+
+// Exibe a versão na página se houver o elemento correspondente
+document.addEventListener("DOMContentLoaded", () => {
+  const versionEl = document.getElementById("app-version");
+  if (versionEl) versionEl.innerText = APP_VERSION;
+});
+
 // 1. Registro do Service Worker para o PWA funcionar Offline
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js')
@@ -106,8 +115,6 @@ function salvarDadosPonto(lat, lng, local, horario) {
   const linkPassageiro = window.location.href.replace('index.html', '') + 'passageiro.html';
   alert(`Sucesso!\nCompartilhe este link com os passageiros:\n\n${linkPassageiro}`);
 }
-
-
 
 // Inicializa a tela
 renderizarLista();

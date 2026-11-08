@@ -1,4 +1,4 @@
-const CACHE_NAME = 'excursao-v1';
+const CACHE_NAME = 'excursao-v3'; 
 const ASSETS = [
   './',
   './index.html',
